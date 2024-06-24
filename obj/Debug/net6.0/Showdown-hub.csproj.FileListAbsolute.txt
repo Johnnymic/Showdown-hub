@@ -25,3 +25,12 @@
 /Users/mac/Showdown-hub/obj/Debug/net6.0/Showdown-hub.pdb
 /Users/mac/Showdown-hub/obj/Debug/net6.0/Showdown-hub.genruntimeconfig.cache
 /Users/mac/Showdown-hub/obj/Debug/net6.0/ref/Showdown-hub.dll
+/Users/mac/Showdown-hub/bin/Debug/net6.0/Humanizer.dll
+/Users/mac/Showdown-hub/bin/Debug/net6.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+/Users/mac/Showdown-hub/bin/Debug/net6.0/Microsoft.EntityFrameworkCore.dll
+/Users/mac/Showdown-hub/bin/Debug/net6.0/Microsoft.EntityFrameworkCore.Abstractions.dll
+/Users/mac/Showdown-hub/bin/Debug/net6.0/Microsoft.EntityFrameworkCore.Design.dll
+/Users/mac/Showdown-hub/bin/Debug/net6.0/Microsoft.EntityFrameworkCore.Relational.dll
+/Users/mac/Showdown-hub/bin/Debug/net6.0/Npgsql.dll
+/Users/mac/Showdown-hub/bin/Debug/net6.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
+/Users/mac/Showdown-hub/bin/Debug/net6.0/AutoMapper.dll

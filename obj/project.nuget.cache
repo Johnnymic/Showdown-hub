@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "DhVF1N1FE1oYn0JWmDSWl8OFjhOZimhZPYH3FcN/EYHnCcv+fbldqSfumdpMKe9l52nXBT2k1/u/iAEXY11/vQ==",
+  "dgSpecHash": "Rf6xe8T34+ADrhLTYmWDV+v3U1+QaYvinECilr6bTN/0dIJzVCt69A41ArP9Tc1Vsxy++0+ogYlOfjRQW48kyQ==",
   "success": true,
   "projectFilePath": "/Users/mac/Showdown-hub/Showdown-hub.csproj",
   "expectedPackageFiles": [
+    "/Users/mac/.nuget/packages/automapper/13.0.1/automapper.13.0.1.nupkg.sha512",
     "/Users/mac/.nuget/packages/humanizer.core/2.8.26/humanizer.core.2.8.26.nupkg.sha512",
     "/Users/mac/.nuget/packages/microsoft.aspnetcore.cryptography.internal/6.0.0/microsoft.aspnetcore.cryptography.internal.6.0.0.nupkg.sha512",
     "/Users/mac/.nuget/packages/microsoft.aspnetcore.cryptography.keyderivation/6.0.0/microsoft.aspnetcore.cryptography.keyderivation.6.0.0.nupkg.sha512",

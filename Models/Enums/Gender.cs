@@ -1,7 +1,8 @@
 namespace Showdown_hub.Models.Enums
 {
-    public class newclass
+    public enum Gender
     {
-        
+       Male,
+       Female 
     }
 }
