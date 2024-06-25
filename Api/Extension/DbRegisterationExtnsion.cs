@@ -11,6 +11,7 @@ namespace Showdown_hub.Api.Extension
         {
            service.AddIdentity<ApplicationUser, IdentityRole>() .AddEntityFrameworkStores<EventHubContext>().AddDefaultTokenProviders();
            service.AddDbContext<EventHubContext>(option => option.UseNpgsql(configuration["EventHubDb"]));
+           
         } 
     }
 }

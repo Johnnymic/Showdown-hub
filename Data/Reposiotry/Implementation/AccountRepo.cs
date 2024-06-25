@@ -53,21 +53,14 @@ namespace Showdown_hub.Data.Reposiotry.Implementation
         public async Task<ApplicationUser> FindUserByEmailAsync(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
-            if(user == null){
-                return null;
-
-            }
-            return user;
+            
+                 return user != null ? user : null ;
         }
 
         public  async Task<ApplicationUser> FindUserById(string id)
         {
              var user = await _userManager.FindByIdAsync(id);
-
-             if(user == null){
-                return null;
-             } 
-             return user;
+             return user != null ? user : null ;
         }
 
         public async Task<string> ForgetPassword(ApplicationUser applicationUser)
@@ -103,13 +96,7 @@ namespace Showdown_hub.Data.Reposiotry.Implementation
         public  async Task<ApplicationUser> SignUpAsync(ApplicationUser user, string password)
         {
               var result = await _userManager.CreateAsync(user, password);
-
-              if (result.Succeeded)
-              {
-                return  user;
-              }
-              
-              return null;
+              return result.Succeeded ? user : null;
         }
 
         public Task<bool> UpdatedLoginStatus(ApplicationUser applicationUser)

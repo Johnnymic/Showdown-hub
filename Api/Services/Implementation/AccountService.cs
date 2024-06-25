@@ -13,7 +13,7 @@ namespace Showdown_hub.Api.Services.Implementation
 
         private readonly IMapper _mapper;
 
-        public AccountService(AccountRepo accountRepo, IMapper mapper)
+        public AccountService(IAccountRepo accountRepo, IMapper mapper)
         {
             _accountRepo = accountRepo;
             _mapper = mapper;
@@ -26,7 +26,7 @@ namespace Showdown_hub.Api.Services.Implementation
             var result  = new  ResponseDto<string>();
             try 
             {
-                var user = await _accountRepo.FindUserByEmailAsync(signUp.email);
+                var user = await _accountRepo.FindUserByEmailAsync(signUp.Email);
                 if (user!=null)
                  {
                       result.Message = Response.ACCOUNT_ALREADY_EXISTS.ResponseMessage;
@@ -34,9 +34,9 @@ namespace Showdown_hub.Api.Services.Implementation
                       return result;
                 }
                  //check for roles
-                 var mapUser = _mapper.Map<ApplicationUser>(signUp);
+                  var mapUser = _mapper.Map<ApplicationUser>(signUp);
 
-                 var createUser = await _accountRepo.SignUpAsync(mapUser, signUp.password);
+                 var createUser = await _accountRepo.SignUpAsync(mapUser, signUp.Password);
 
                  if(createUser == null)
                  {
@@ -48,7 +48,7 @@ namespace Showdown_hub.Api.Services.Implementation
 
                   result.Message= Response.SUCCESS.ResponseMessage;
                   result.StatusCode = Response.SUCCESS.ResponseCode;
-                  result.Result =  $"{createUser.Email} is successfully created";
+                  result.Result =  " user is successfully created";
 
                 }
             catch(Exception ex)

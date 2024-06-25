@@ -12,8 +12,8 @@ using Showdown_hub.Data.DbContext;
 namespace Showdown_hub.Migrations
 {
     [DbContext(typeof(EventHubContext))]
-    [Migration("20240611213342_EventHub")]
-    partial class EventHub
+    [Migration("20240625163013_init_eventhub")]
+    partial class init_eventhub
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -176,7 +176,6 @@ namespace Showdown_hub.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
@@ -210,10 +209,6 @@ namespace Showdown_hub.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("text");

@@ -34,3 +34,4 @@
 /Users/mac/Showdown-hub/bin/Debug/net6.0/Npgsql.dll
 /Users/mac/Showdown-hub/bin/Debug/net6.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
 /Users/mac/Showdown-hub/bin/Debug/net6.0/AutoMapper.dll
+/Users/mac/Showdown-hub/bin/Debug/net6.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll
