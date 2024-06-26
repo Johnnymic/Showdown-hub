@@ -9,7 +9,7 @@ namespace Showdown_hub.Api.Extension
          public MappingProfile()
         {
             // Create maps between entities and DTOs here
-            CreateMap<ApplicationUser, SignUpDto>();
+            CreateMap< SignUpDto, ApplicationUser>();
             // Add other mappings here as needed
         }
     }
