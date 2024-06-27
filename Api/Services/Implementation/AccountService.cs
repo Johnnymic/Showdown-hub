@@ -21,7 +21,7 @@ namespace Showdown_hub.Api.Services.Implementation
 
         
         
-        public  async Task<ResponseDto<string>> RegisterUserAsync(SignUpDto signUp)
+        public  async Task<ResponseDto<string>> RegisterUserAsync(SignUpDto signUp,string role)
         {
             var result  = new  ResponseDto<string>();
             try 
@@ -33,6 +33,14 @@ namespace Showdown_hub.Api.Services.Implementation
                       result.StatusCode= Response.ACCOUNT_ALREADY_EXISTS.ResponseCode;
                       return result;
                 }
+                var existRole = await _accountRepo.RoleExist(role);
+                 if(existRole == null)
+                 {
+                       result.Message = Response.ROLE_ALREADY_EXIST.ResponseMessage;
+                       result.StatusCode = Response.ROLE_ALREADY_EXIST.ResponseCode;
+                       return result;
+
+                 }
                  //check for roles
                   var mapUser = _mapper.Map<ApplicationUser>(signUp);
 
@@ -44,6 +52,17 @@ namespace Showdown_hub.Api.Services.Implementation
                      result.StatusCode = Response.FAILED.ResponseCode;
                      return result;
                  }
+               
+                var addRole  = await _accountRepo.AddRoleAsync( createUser, role);
+                if (addRole == null)
+                {
+                     result.Message = Response.FAILED.ResponseMessage;
+                     result.StatusCode = Response.FAILED.ResponseCode;
+                     return result;
+
+                }
+                     
+                 
                  //To do check if the role exist
 
                   result.Message= Response.SUCCESS.ResponseMessage;
@@ -54,6 +73,7 @@ namespace Showdown_hub.Api.Services.Implementation
             catch(Exception ex)
             { 
                result.Message= ex.Message;
+               
                 
 
             }

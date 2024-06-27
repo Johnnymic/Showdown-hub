@@ -19,7 +19,7 @@ namespace Showdown_hub.Api
         [HttpPost("register")]
         public async Task<IActionResult> RegisterUser( SignUpDto signUp)
         {
-            var registerUser = await _accountService.RegisterUserAsync(signUp);
+            var registerUser = await _accountService.RegisterUserAsync(signUp, "USER");
             if (registerUser.StatusCode == "00")
             {
                 return  Ok(registerUser);

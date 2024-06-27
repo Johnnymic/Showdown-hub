@@ -11,8 +11,8 @@ namespace Showdown_hub.Models.Dtos
         [EmailAddress(ErrorMessage = "Invalid email address format.")]
         public string Email { get; set; }
             [Required(ErrorMessage = "Username is required.")]
-    [StringLength(50, ErrorMessage = "Username cannot be longer than 50 characters.")]
-    public string Username { get; set; }
+            [StringLength(50, ErrorMessage = "Username cannot be longer than 50 characters.")]
+           public string Username { get; set; }
 
         [Required(ErrorMessage = "Password is required.")]
         [DataType(DataType.Password)]
@@ -33,6 +33,6 @@ namespace Showdown_hub.Models.Dtos
         [StringLength(200, ErrorMessage = "Address cannot be longer than 200 characters.")]
         public string Address { get; set; }
 
-        public bool IsEmailVerified { get; set; }
+        
     }
 }

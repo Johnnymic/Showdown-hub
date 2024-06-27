@@ -25,11 +25,8 @@ namespace Showdown_hub.Data.Reposiotry.Implementation
         public  async Task<bool> AddRoleAsync(ApplicationUser applicationUser, string role)
         {
               var AddRole =  await _userManager.AddToRoleAsync( applicationUser, role);
-              if(AddRole.Succeeded)
-              {
-                return true;
-              }
-              return false;
+             return  AddRole.Succeeded ? true : false;
+              
         }
 
         public Task<bool> CheckAccountPassword(ApplicationUser user, string password)
@@ -88,9 +85,11 @@ namespace Showdown_hub.Data.Reposiotry.Implementation
             throw new NotImplementedException();
         }
 
-        public Task<bool> RoleExist(string roleName)
+        public async Task<bool> RoleExist(string roleName)
         {
-            throw new NotImplementedException();
+             var role = await _roleManager.RoleExistsAsync(roleName);
+
+             return role ? role : false ;
         }
 
         public  async Task<ApplicationUser> SignUpAsync(ApplicationUser user, string password)

@@ -5,6 +5,6 @@ namespace Showdown_hub.Api.Services.Interface
 {
     public interface IAccountService
     {
-        Task<ResponseDto<string>> RegisterUserAsync(SignUpDto signUp);
+        Task<ResponseDto<string>> RegisterUserAsync(SignUpDto signUp,string role);
     }
 }

@@ -42,6 +42,8 @@ namespace Showdown_hub.Models.Dtos
         public static readonly Response DUPLICATE_RECORD = new Response("110", "Duplicate record");
         public static readonly Response INVALID_AUTHORITIES = new Response("402", "Invalid Authorities");
 
+        public static readonly Response ROLE_ALREADY_EXIST = new Response("91", "Role already exist for this user");
+
         private Response(string responseCode, string responseMessage)
         {
             ResponseCode = responseCode;
