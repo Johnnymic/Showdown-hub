@@ -34,6 +34,7 @@ namespace Showdown_hub.Api.Services.Implementation
                       return result;
                 }
                 var existRole = await _accountRepo.RoleExist(role);
+                 
                  if(existRole == null)
                  {
                        result.Message = Response.ROLE_ALREADY_EXIST.ResponseMessage;
