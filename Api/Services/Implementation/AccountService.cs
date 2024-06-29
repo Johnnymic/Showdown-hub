@@ -42,6 +42,7 @@ namespace Showdown_hub.Api.Services.Implementation
                        return result;
 
                  }
+                 
                  //check for roles
                   var mapUser = _mapper.Map<ApplicationUser>(signUp);
 

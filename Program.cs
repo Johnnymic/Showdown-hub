@@ -9,6 +9,9 @@ using Showdown_hub.Data.Reposiotry.Interface;
 using Showdown_hub.Models;
 using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -58,6 +61,32 @@ builder.Services.Configure<IdentityOptions>(options =>
 
 //builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly, typeof(IAccountService).Assembly, typeof(AccountService).Assembly);
 
+//For authentication 
+
+builder.Services.AddAuthentication(options =>
+{
+       options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+       options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+       options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}
+).AddJwtBearer(options=>
+{
+       options.TokenValidationParameters = new TokenValidationParameters()
+       {
+           ValidateAudience = true,
+           ValidateIssuer = true,
+           ValidateLifetime =true,  
+           ValidateIssuerSigningKey = true,
+           ValidAudience = builder.Configuration["JWT:ValidAudience"],
+           ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
+           IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"])),
+           ClockSkew = TimeSpan.FromMinutes(30)
+
+
+       };
+
+
+});
 
 var app = builder.Build();
 

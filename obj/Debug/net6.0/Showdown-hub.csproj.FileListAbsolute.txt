@@ -35,3 +35,10 @@
 /Users/mac/Showdown-hub/bin/Debug/net6.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
 /Users/mac/Showdown-hub/bin/Debug/net6.0/AutoMapper.dll
 /Users/mac/Showdown-hub/bin/Debug/net6.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+/Users/mac/Showdown-hub/bin/Debug/net6.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/Users/mac/Showdown-hub/bin/Debug/net6.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/mac/Showdown-hub/bin/Debug/net6.0/Microsoft.IdentityModel.Logging.dll
+/Users/mac/Showdown-hub/bin/Debug/net6.0/Microsoft.IdentityModel.Protocols.dll
+/Users/mac/Showdown-hub/bin/Debug/net6.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/Users/mac/Showdown-hub/bin/Debug/net6.0/Microsoft.IdentityModel.Tokens.dll
+/Users/mac/Showdown-hub/bin/Debug/net6.0/System.IdentityModel.Tokens.Jwt.dll
