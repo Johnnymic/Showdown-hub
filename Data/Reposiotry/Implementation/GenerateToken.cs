@@ -29,41 +29,42 @@ namespace Showdown_hub.Data.Reposiotry.Implementation
             _userManager = userManager;
             
         }
-     public   async Task<string> GenerateJwtToken(ApplicationUser applicationUser)
-        {
-            var roles =  await _userManager.GetRolesAsync(applicationUser);
+    //  public   async Task<string> GenerateJwtToken(ApplicationUser applicationUser)
+    //     {
+    //         var roles =  await _userManager.GetRolesAsync(applicationUser);
              
-             var name = applicationUser.FirstName + " " + applicationUser.LastName;
+    //          var name = applicationUser.FirstName + " " + applicationUser.LastName;
 
-             var authClaims = new  List<Claim>()
-             {
-                new Claim(ClaimTypes.Name, name),
-                new Claim(JwtRegisteredClaimNames.Jti , applicationUser.Id),
-                new Claim(ClaimTypes.Email, applicationUser.Email),
-                new Claim(ClaimTypes.UserData, applicationUser.Id),
+    //          var authClaims = new  List<Claim>()
+    //          {
+    //             new Claim(ClaimTypes.Name, name),
+    //             new Claim(JwtRegisteredClaimNames.Jti , applicationUser.Id),
+    //             new Claim(ClaimTypes.Email, applicationUser.Email),
+    //             new Claim(ClaimTypes.UserData, applicationUser.Id),
     
-             };
+    //          };
 
-             foreach(var role in roles)
-             {
-                   authClaims.Add(new Claim(ClaimTypes.Role, role));
-             }
-             var authSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["JWT:Secret"]));
+    //          foreach(var role in roles)
+    //          {
+    //                authClaims.Add(new Claim(ClaimTypes.Role, role));
+    //          }
+    //          var authSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["JWT:Secret"]));
 
-             var Token = new JwtSecurityToken
-             (
-                issuer: _configuration["JWT:ValidIssuer"],
-                audience : _configuration["ValidAudience"],
-                expires : DateTime.Now.AddDays(1),
-                claims : authClaims,
-                signingCredentials : new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha384Signature)
-             );
+    //          var Token = new JwtSecurityToken
+    //          (
+    //             issuer: _configuration["JWT:ValidIssuer"],
+    //             audience : _configuration["ValidAudience"],
+    //             expires : DateTime.Now.AddDays(1),
+    //             claims : authClaims,
+    //             signingCredentials : new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha384Signature)
+    //          );
 
 
-           var JwtToken = new JwtSecurityTokenHandler().WriteToken(Token);
-           return JwtToken;
-        }
+    //        var JwtToken = new JwtSecurityTokenHandler().WriteToken(Token);
+    //        return JwtToken;
+    //     }
 
         
+    // }
     }
 }

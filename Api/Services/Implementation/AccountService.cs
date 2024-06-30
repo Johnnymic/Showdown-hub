@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Showdown_hub.Api.Services.Interface;
 using Showdown_hub.Data.Reposiotry.Implementation;
 using Showdown_hub.Data.Reposiotry.Interface;
@@ -13,14 +14,17 @@ namespace Showdown_hub.Api.Services.Implementation
 
         private readonly IMapper _mapper;
 
+       private readonly  GenerateToken  _generateToken;
+
         public AccountService(IAccountRepo accountRepo, IMapper mapper)
         {
             _accountRepo = accountRepo;
             _mapper = mapper;
+           
         }
 
-        
-        
+       
+
         public  async Task<ResponseDto<string>> RegisterUserAsync(SignUpDto signUp,string role)
         {
             var result  = new  ResponseDto<string>();
@@ -81,6 +85,55 @@ namespace Showdown_hub.Api.Services.Implementation
             }
              return result;
           
+        }
+
+         public async Task<ResponseDto<string>> LoginUser(LoginDto login)
+        {// check if the email exist.
+             var result = new ResponseDto<string>(); 
+          
+          try
+          {
+
+          
+              var currentUser = await _accountRepo.FindUserByEmailAsync(login.Email);
+               if (currentUser == null)
+               {
+                      result.Message = Response.INVALID_EMAIL.ResponseMessage;
+                      result.StatusCode = Response.INVALID_EMAIL.ResponseCode;
+                      return result;
+               }
+               var checkPassword = await _accountRepo.CheckAccountPassword(currentUser,login.Password);
+
+               if (checkPassword == null)
+               {
+                    result.Message = Response.INVALID_ACCOUNT.ResponseMessage;
+                    result.StatusCode= Response.INVALID_ACCOUNT.ResponseCode;
+                    return result;
+               }
+
+              var token = await _accountRepo.GenerateJwtToken(currentUser);
+                if(token == null)
+                {
+                    result.Message = Response.INVALID_TOKEN.ResponseMessage;
+                    result.StatusCode = Response.INVALID_TOKEN.ResponseCode;
+                    return result;
+                }
+
+                result.Message = Response.SUCCESS.ResponseMessage;
+                result.StatusCode =Response.SUCCESS.ResponseCode;
+                result.ErrorMessage = new List<string>{"No error, user have successfully sign in"};
+                
+
+
+          }
+          catch(Exception ex)
+          {
+              result.Message = ex.Message;
+
+          }
+
+          return result;
+        
         }
 
         

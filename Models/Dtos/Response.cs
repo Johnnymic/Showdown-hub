@@ -7,6 +7,7 @@ namespace Showdown_hub.Models.Dtos
 
         // Define the ApiResponse constants public string ResponseCode { get; private set; }
         public string ResponseMessage { get; private set; }
+ 
 
         // Define the Response constants
         public static readonly Response SUCCESS = new Response("00", "Approved or completed successfully");
@@ -43,6 +44,9 @@ namespace Showdown_hub.Models.Dtos
         public static readonly Response INVALID_AUTHORITIES = new Response("402", "Invalid Authorities");
 
         public static readonly Response ROLE_ALREADY_EXIST = new Response("91", "Role already exist for this user");
+
+          public static readonly Response INVALID_EMAIL = new Response("89", "EMAIL DOES NOT EXIST FOR THIS USER");
+        public static readonly Response INVALID_TOKEN = new Response("111", "INVALID TOKEN");
 
         private Response(string responseCode, string responseMessage)
         {

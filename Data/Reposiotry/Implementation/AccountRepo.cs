@@ -1,4 +1,8 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using Showdown_hub.Data.DbContext;
 using Showdown_hub.Data.Reposiotry.Interface;
 using Showdown_hub.Models;
@@ -14,12 +18,15 @@ namespace Showdown_hub.Data.Reposiotry.Implementation
 
           private readonly RoleManager<IdentityRole> _roleManager;
 
+          private  readonly IConfiguration _configuration;
 
-          public AccountRepo(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager , EventHubContext context)
+
+          public AccountRepo(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager , EventHubContext context, IConfiguration configuration)
           {
               _userManager = userManager;
               _roleManager = roleManager;
               _context = context;
+              _configuration =configuration;
           }
 
         public  async Task<bool> AddRoleAsync(ApplicationUser applicationUser, string role)
@@ -29,9 +36,11 @@ namespace Showdown_hub.Data.Reposiotry.Implementation
               
         }
 
-        public Task<bool> CheckAccountPassword(ApplicationUser user, string password)
+        public async Task<bool> CheckAccountPassword(ApplicationUser user, string password)
         {
-            throw new NotImplementedException();
+             var passwordCheck = await _userManager.CheckPasswordAsync(user, password);
+
+             return passwordCheck ? true : false;
         }
 
         
@@ -70,10 +79,17 @@ namespace Showdown_hub.Data.Reposiotry.Implementation
             return  "Invalid passowrd";
         }
 
-        public Task<IList<string>> GetUserRoles()
+      
+            
+
+        public Task<IList<string>> GetUserRoles(ApplicationUser applicationUser)
         {
-            throw new NotImplementedException();
+            var userRole = _userManager.GetRolesAsync(applicationUser);
+
+            return userRole;
         }
+
+      
 
         public Task<bool> RemoveRoleAysnc(ApplicationUser applicationUser, IList<string> roles)
         {
@@ -99,6 +115,46 @@ namespace Showdown_hub.Data.Reposiotry.Implementation
         }
 
         public Task<bool> UpdatedLoginStatus(ApplicationUser applicationUser)
+        {
+            throw new NotImplementedException();
+        }
+
+        public   async Task<string> GenerateJwtToken(ApplicationUser applicationUser)
+        {
+            var roles =  await _userManager.GetRolesAsync(applicationUser);
+             
+             var name = applicationUser.FirstName + " " + applicationUser.LastName;
+
+             var authClaims = new  List<Claim>()
+             {
+                new Claim(ClaimTypes.Name, name),
+                new Claim(JwtRegisteredClaimNames.Jti , applicationUser.Id),
+                new Claim(ClaimTypes.Email, applicationUser.Email),
+                new Claim(ClaimTypes.UserData, applicationUser.Id),
+    
+             };
+
+             foreach(var role in roles)
+             {
+                   authClaims.Add(new Claim(ClaimTypes.Role, role));
+             }
+             var authSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["JWT:Secret"]));
+
+             var Token = new JwtSecurityToken
+             (
+                issuer: _configuration["JWT:ValidIssuer"],
+                audience : _configuration["ValidAudience"],
+                expires : DateTime.Now.AddDays(1),
+                claims : authClaims,
+                signingCredentials : new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha384Signature)
+             );
+
+
+           var JwtToken = new JwtSecurityTokenHandler().WriteToken(Token);
+           return JwtToken;
+        }
+
+        public Task<IList<string>> GetUserRoles()
         {
             throw new NotImplementedException();
         }

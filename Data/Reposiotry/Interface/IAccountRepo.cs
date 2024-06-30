@@ -26,7 +26,9 @@ namespace Showdown_hub.Data.Reposiotry.Interface
 
          Task<ApplicationUser> FindUserById(string id);
 
-         Task<IList<string>> GetUserRoles(); 
+         Task<IList<string>> GetUserRoles();
+
+         Task<string>GenerateJwtToken(ApplicationUser applicationUser); 
 
     }
 }

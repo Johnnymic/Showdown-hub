@@ -37,6 +37,25 @@ namespace Showdown_hub.Api
 
         }
 
+        [HttpPost("/login")]
+        public async Task<IActionResult> LoginUser(LoginDto login)
+        {
+            var loginUser = await _accountService.LoginUser(login);
+            if (loginUser.StatusCode == "00")
+            {
+                      return Ok(login);
+            }
+            else if (loginUser.StatusCode == "99")
+            {
+                return NotFound(LoginUser);
+            }
+            else
+            {
+                  return BadRequest(LoginUser);
+            }
+
+        }
+
         
 
     }

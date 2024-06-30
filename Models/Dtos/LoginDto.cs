@@ -1,9 +1,10 @@
 namespace Showdown_hub.Models.Dtos
 {
-    public class login
-    {
-        private string Email { get; set; }
+    public class LoginDto
 
-        private string Password { get; set; }
+    {
+        public string Email { get; set; }
+
+        public string Password { get; set; }
     }
 }
