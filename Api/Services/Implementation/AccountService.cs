@@ -136,6 +136,42 @@ namespace Showdown_hub.Api.Services.Implementation
         
         }
 
-        
+        public  async Task<ResponseDto<string>> CreateRoleAsync(CreateRoleDto createRole)
+        {
+            //check if the role exist if it does thrown an expexistion o exist create a new role 
+            var result = new ResponseDto<string>();
+     try
+     {
+
+     
+             var rolesExist = await _accountRepo.RoleExist(createRole.RoleName);
+
+             if(rolesExist != null)
+             {
+                 result.Message = Response.ROLE_ALREADY_EXIST.ResponseMessage;
+                 result.StatusCode =Response.ACCOUNT_ALREADY_EXISTS.ResponseCode;
+             }
+
+             // create a role 
+              var addRole =  await _accountRepo.CreateNewRole(createRole.RoleName);
+
+              if(addRole == null)
+              {
+                result.Message = Response.FAILED.ResponseMessage;
+                result.StatusCode=Response.FAILED.ResponseCode;
+                return result;
+              }
+
+              result.Message= Response.SUCCESS.ResponseMessage;
+              result.StatusCode = Response.SUCCESS.ResponseCode;
+              result.Result = "ROLE SUCCESSFULL ADDED";
+     }
+     catch(Exception ex)
+     {
+        result.Message = ex.Message;
+     }      
+
+             return  result;
+        }
     }
 }

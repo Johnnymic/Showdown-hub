@@ -56,6 +56,15 @@ namespace Showdown_hub.Api
 
         }
 
+        [HttpPost("/role")]
+        public async Task<IActionResult> CreateRoles(CreateRoleDto createRole)
+        {
+             var role = await _accountService.CreateRoleAsync(createRole);
+             
+             return Ok(role); 
+
+        }
+
         
 
     }

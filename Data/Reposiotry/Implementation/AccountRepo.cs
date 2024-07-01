@@ -158,5 +158,11 @@ namespace Showdown_hub.Data.Reposiotry.Implementation
         {
             throw new NotImplementedException();
         }
+
+        public async Task<string> CreateNewRole(string newRole)
+        {
+            var createRole = await _roleManager.CreateAsync( new IdentityRole(newRole));
+            return createRole.ToString() ?? string.Empty;
+        }
     }
 }

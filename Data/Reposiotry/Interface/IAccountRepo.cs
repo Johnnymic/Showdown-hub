@@ -16,6 +16,8 @@ namespace Showdown_hub.Data.Reposiotry.Interface
 
          Task<string> ForgetPassword(ApplicationUser applicationUser);
 
+         Task<string> CreateNewRole(string newRole);
+
          Task<bool> RemoveRoleAysnc(ApplicationUser applicationUser ,IList<string> roles);
 
          Task<bool> ResetPasswordAsyn(ApplicationUser applicationUser);
