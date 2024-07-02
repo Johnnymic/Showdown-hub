@@ -10,13 +10,15 @@ namespace Showdown_hub.Api
     {
         private readonly IAccountService _accountService;
 
+        
+
         public AccountController(IAccountService accountService)
         {
             _accountService = accountService;
             
         }
 
-        [HttpPost("register")]
+        [HttpPost("/register")]
         public async Task<IActionResult> RegisterUser( SignUpDto signUp)
         {
             var registerUser = await _accountService.RegisterUserAsync(signUp, "USER");
@@ -43,15 +45,15 @@ namespace Showdown_hub.Api
             var loginUser = await _accountService.LoginUser(login);
             if (loginUser.StatusCode == "00")
             {
-                      return Ok(login);
+                      return Ok(loginUser);
             }
             else if (loginUser.StatusCode == "99")
             {
-                return NotFound(LoginUser);
+                return NotFound(loginUser);
             }
             else
             {
-                  return BadRequest(LoginUser);
+                  return BadRequest(loginUser);
             }
 
         }
@@ -60,11 +62,44 @@ namespace Showdown_hub.Api
         public async Task<IActionResult> CreateRoles(CreateRoleDto createRole)
         {
              var role = await _accountService.CreateRoleAsync(createRole);
-             
-             return Ok(role); 
 
+             if (role.StatusCode == "00")
+             {
+                return Ok(role);
+             }
+             else if(role.StatusCode=="99")
+             {
+                return NotFound(role);
+             }
+             else
+             {
+                return BadRequest(role);
+             }
+
+         }
+      
+       [HttpPost("/forget/password")]
+         public async Task<IActionResult> ForgetPassword(string email){
+        //forget and reset password
+        var forgetPassword = await  _accountService.ForgetPasswordAsync(email);
+         
+         if(forgetPassword.StatusCode == "00")
+         {
+             return Ok(forgetPassword);
+
+         }
+         else if(forgetPassword.StatusCode== "99")
+         {
+             return NotFound(forgetPassword);
+
+         }
+         else
+         {
+             return BadRequest(forgetPassword);
+         }
+           
+       
         }
-
         
 
     }

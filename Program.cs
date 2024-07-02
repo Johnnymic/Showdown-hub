@@ -63,6 +63,8 @@ builder.Services.Configure<IdentityOptions>(options =>
 //builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly, typeof(IAccountService).Assembly, typeof(AccountService).Assembly);
 
 //For authentication 
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 
 builder.Services.AddAuthentication(options =>
 {

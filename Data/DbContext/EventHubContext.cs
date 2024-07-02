@@ -15,6 +15,8 @@ namespace Showdown_hub.Data.DbContext
 
       public  DbSet<EventTicket> eventTickets{ get; set; }
 
+      public DbSet<Roles> roles { get; set;}
+
       public EventHubContext(DbContextOptions options) : base(options)
       {
         
