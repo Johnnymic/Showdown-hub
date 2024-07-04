@@ -224,5 +224,46 @@ namespace Showdown_hub.Api.Services.Implementation
 
             return result;
         }
+
+        public async Task<ResponseDto<string>> ResetPasswordAsync(ResetPassword resetPassword)
+        {
+              var result = new ResponseDto<string>();   
+
+            try
+              {
+                 var userExist = await _accountRepo.FindUserByEmailAsync(resetPassword.Email);
+                 if(userExist == null)
+                 {
+                    result.Message = Response.INVALID_ACCOUNT.ResponseMessage;
+                    result.StatusCode = Response.INVALID_ACCOUNT.ResponseCode;
+
+                    _logger.LogWarning("Registration failed: Email {Email} already exists.", resetPassword.Email);
+                    return result;
+                 }
+                 var response = await _accountRepo.ResetPasswordAsyn(userExist, resetPassword);
+                 if(response == null)
+                 {
+                    result.Message = Response.FAILED.ResponseMessage;
+                    result.StatusCode = Response.FAILED.ResponseCode;
+                      _logger.LogError("User is reset their  their password {forgetPassword}.", resetPassword.ConfirmPassword);
+                 }
+
+                result.Message = Response.SUCCESS.ResponseMessage;
+                result.StatusCode = Response.SUCCESS.ResponseCode;
+                result.Result = "User has successfully  reset their password"; 
+
+
+              }catch(Exception ex)
+              {
+                result.Message=ex.Message;
+                result.StatusCode = Response.FAILED.ResponseCode;
+              }
+
+            return result;
+        }
+
+        public 
+
+        
     }
 }
