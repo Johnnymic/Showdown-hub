@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using Showdown_hub.Data.DbContext;
 using Showdown_hub.Data.Reposiotry.Interface;
 using Showdown_hub.Models;
+using Showdown_hub.Models.Dtos;
 
 namespace Showdown_hub.Data.Reposiotry.Implementation
 {
@@ -96,9 +97,11 @@ namespace Showdown_hub.Data.Reposiotry.Implementation
             throw new NotImplementedException();
         }
 
-        public Task<bool> ResetPasswordAsyn(ApplicationUser applicationUser)
+        public  async Task<bool> ResetPasswordAsyn(ApplicationUser applicationUser, ResetPassword resetPassword)
         {
-            throw new NotImplementedException();
+             var  result =  await _userManager.ResetPasswordAsync(applicationUser, resetPassword.Token, resetPassword.Password);
+
+            return result.Succeeded ? true : false;
         }
 
         public async Task<bool> RoleExist(string roleName)
@@ -164,5 +167,7 @@ namespace Showdown_hub.Data.Reposiotry.Implementation
             var createRole = await _roleManager.CreateAsync( new IdentityRole(newRole));
             return createRole.ToString() ?? string.Empty;
         }
+
+       
     }
 }

@@ -1,4 +1,5 @@
 using Showdown_hub.Models;
+using Showdown_hub.Models.Dtos;
 
 namespace Showdown_hub.Data.Reposiotry.Interface
 {
@@ -20,7 +21,7 @@ namespace Showdown_hub.Data.Reposiotry.Interface
 
          Task<bool> RemoveRoleAysnc(ApplicationUser applicationUser ,IList<string> roles);
 
-         Task<bool> ResetPasswordAsyn(ApplicationUser applicationUser);
+         Task<bool> ResetPasswordAsyn(ApplicationUser applicationUser,ResetPassword resetPassword);
 
          Task<bool>RoleExist(string roleName);
 

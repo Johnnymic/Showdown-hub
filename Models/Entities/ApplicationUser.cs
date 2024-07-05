@@ -11,7 +11,11 @@ namespace Showdown_hub.Models
 
        public string LastName {get; set;}
 
-       private string PhoneNumber {get; set;}
+       public string PhoneNumber {get; set;}
+
+       public string ProfilePic {get; set;} = string.Empty;
+
+       public ProfileStatus profileStatus{get; set;}
 
        public Gender Gender {get; set;}
 
