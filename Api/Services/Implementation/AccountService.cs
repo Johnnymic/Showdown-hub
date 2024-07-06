@@ -262,8 +262,10 @@ namespace Showdown_hub.Api.Services.Implementation
             return result;
         }
 
-        public 
-
-        
+        public Task<ResponseDto<string>> LogOutUser(string UserEmail)
+        {
+            throw new NotImplementedException();
+        }
     }
+
 }
