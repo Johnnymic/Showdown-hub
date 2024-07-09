@@ -211,8 +211,16 @@ namespace Showdown_hub.Migrations
                     b.Property<string>("PasswordHash")
                         .HasColumnType("text");
 
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("ProfilePic")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
@@ -225,6 +233,9 @@ namespace Showdown_hub.Migrations
                         .HasColumnType("character varying(256)");
 
                     b.Property<int>("eventType")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("profileStatus")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -342,6 +353,20 @@ namespace Showdown_hub.Migrations
                     b.HasIndex("eventId");
 
                     b.ToTable("eventTickets");
+                });
+
+            modelBuilder.Entity("Showdown_hub.Models.Entities.Roles", b =>
+                {
+                    b.Property<string>("id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("id");
+
+                    b.ToTable("roles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
