@@ -97,12 +97,28 @@ namespace Showdown_hub.Api
          {
              return BadRequest(forgetPassword);
          }
+         }
+
+         [HttpPost("/reset/password")]
+         public async Task<IActionResult> resetPassword(ResetPassword resetPassword) 
+         {
+            var resetPass = await _accountService.ResetPasswordAsync( resetPassword);
+
+            if (resetPass.StatusCode == "00")
+            {
+                return Ok(resetPassword);
+            }
+            else
+            {
+                return BadRequest(resetPass);
+            }
+         }
 
         
            
        
-        }
+    }
+
         
 
-    }
 }

@@ -33,5 +33,7 @@ namespace Showdown_hub.Data.Reposiotry.Interface
 
          Task<string>GenerateJwtToken(ApplicationUser applicationUser); 
 
+         Task<bool>LogoutUser(ApplicationUser applicationUser);
+
     }
 }

@@ -1,10 +1,12 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.EntityFrameworkCore;
 using Showdown_hub.Api.Services.Interface;
 using Showdown_hub.Data.Reposiotry.Implementation;
 using Showdown_hub.Data.Reposiotry.Interface;
 using Showdown_hub.Models;
 using Showdown_hub.Models.Dtos;
+using Showdown_hub.Models.Enums;
 
 namespace Showdown_hub.Api.Services.Implementation
 {
@@ -125,6 +127,7 @@ namespace Showdown_hub.Api.Services.Implementation
                     _logger.LogError("Token generation failed for user {UserId}.", currentUser.Id);
                     return result;
                 }
+                
 
                 _logger.LogInformation("Token generated successfully for user {UserId}.", currentUser.Id);
 
@@ -262,10 +265,55 @@ namespace Showdown_hub.Api.Services.Implementation
             return result;
         }
 
-        public Task<ResponseDto<string>> LogOutUser(string UserEmail)
+        public async Task<ResponseDto<string>> LogOutUser(string UserEmail)
         {
-            throw new NotImplementedException();
+            var result = new ResponseDto<string>();
+   try
+   {
+
+   
+            var user = await _accountRepo.FindUserByEmailAsync(UserEmail);
+            if(user == null)
+            {
+                     result.Message = Response.INVALID_ACCOUNT.ResponseMessage;
+                    result.StatusCode = Response.INVALID_ACCOUNT.ResponseCode;
+
+                    _logger.LogWarning("User not found", UserEmail);
+
+                    return result;
+            }
+            //check if the token has expeired
+            //check if the user is online then 
+            //
+            if(user.profileStatus != null &&  user.profileStatus==ProfileStatus.Online)
+            {
+               user.profileStatus = ProfileStatus.Offline;
+               var logout = await _accountRepo.LogoutUser(user);
+
+               if(!logout)
+               {
+                  result.Message = Response.FAILED.ResponseMessage;
+                  result.StatusCode = Response.FAILED.ResponseCode;
+                  result.Result= "User have not logout succefully";
+                  return result;
+               }
+                
+                  result.Message = Response.SUCCESS.ResponseMessage;
+                result.StatusCode = Response.SUCCESS.ResponseCode;
+                result.Result = "User has successfully  logout"; 
+            }
+
+   }
+   catch(Exception ex)
+   {
+        result.Message = ex.Message;
+   }
+
+            return result;
+
         }
+
+        
     }
 
 }

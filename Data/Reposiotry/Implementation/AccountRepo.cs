@@ -39,6 +39,7 @@ namespace Showdown_hub.Data.Reposiotry.Implementation
 
         public async Task<bool> CheckAccountPassword(ApplicationUser user, string password)
         {
+            
              var passwordCheck = await _userManager.CheckPasswordAsync(user, password);
 
              return passwordCheck ? true : false;
@@ -113,7 +114,8 @@ namespace Showdown_hub.Data.Reposiotry.Implementation
 
         public  async Task<ApplicationUser> SignUpAsync(ApplicationUser user, string password)
         {
-              var result = await _userManager.CreateAsync(user, password);
+             user.profileStatus = Models.Enums.ProfileStatus.New;
+             var result = await _userManager.CreateAsync(user, password);
               return result.Succeeded ? user : null;
         }
 
@@ -159,13 +161,21 @@ namespace Showdown_hub.Data.Reposiotry.Implementation
 
         public Task<IList<string>> GetUserRoles()
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public async Task<string> CreateNewRole(string newRole)
         {
             var createRole = await _roleManager.CreateAsync( new IdentityRole(newRole));
             return createRole.ToString() ?? string.Empty;
+        }
+
+        public  async Task<bool> LogoutUser(ApplicationUser applicationUser)
+        {
+             
+              var logout = await _userManager.GetLockoutEnabledAsync(applicationUser);
+
+              return logout;
         }
 
        
