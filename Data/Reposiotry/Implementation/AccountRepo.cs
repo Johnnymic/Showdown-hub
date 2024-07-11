@@ -50,6 +50,7 @@ namespace Showdown_hub.Data.Reposiotry.Implementation
 
         public async Task<bool> ConfirmEmail(ApplicationUser applicationUser, string token)
         {
+             
              var email = await _userManager.ConfirmEmailAsync(applicationUser, token);
              if(email.Succeeded)
              {
@@ -121,7 +122,7 @@ namespace Showdown_hub.Data.Reposiotry.Implementation
 
         public Task<bool> UpdatedLoginStatus(ApplicationUser applicationUser)
         {
-            throw new NotImplementedException();
+            throw new Exception();
         }
 
         public   async Task<string> GenerateJwtToken(ApplicationUser applicationUser)
@@ -166,18 +167,26 @@ namespace Showdown_hub.Data.Reposiotry.Implementation
 
         public async Task<string> CreateNewRole(string newRole)
         {
+            
             var createRole = await _roleManager.CreateAsync( new IdentityRole(newRole));
             return createRole.ToString() ?? string.Empty;
         }
 
         public  async Task<bool> LogoutUser(ApplicationUser applicationUser)
         {
+             applicationUser.LockoutEnabled= true;
              
               var logout = await _userManager.GetLockoutEnabledAsync(applicationUser);
 
               return logout;
         }
 
-       
+        public async Task<bool> UpdateUser(ApplicationUser applicationUser)
+        {
+            var user = await _userManager.UpdateAsync(applicationUser);
+            
+            return user.Succeeded ? true: false;
+        }
+
     }
 }

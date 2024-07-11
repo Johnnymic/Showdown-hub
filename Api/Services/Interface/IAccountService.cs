@@ -14,6 +14,9 @@ namespace Showdown_hub.Api.Services.Interface
 
         Task<ResponseDto<string>> LogOutUser(string UserEmail);
 
+         Task<ResponseDto<string>> VerifyEmail(string Email);
+
+         Task<ResponseDto<string>> UpdateUser(UpdateUserDto updateUser, string email);
         
         
     }

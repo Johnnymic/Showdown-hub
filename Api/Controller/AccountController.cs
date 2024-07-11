@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Showdown_hub.Api.Services.Interface;
+using Showdown_hub.Models;
 using Showdown_hub.Models.Dtos;
 
 namespace Showdown_hub.Api
@@ -112,6 +113,21 @@ namespace Showdown_hub.Api
             {
                 return BadRequest(resetPass);
             }
+         }
+
+         [HttpPost("/logout")]
+         public async Task<IActionResult> LogoutUser(string email)
+         {
+            var user = await _accountService.LogOutUser(email);
+            if (user.StatusCode == "00")
+            {
+                return Ok(user);
+            }
+            else
+            {
+                return BadRequest(user);
+            }
+
          }
 
         

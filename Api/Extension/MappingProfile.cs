@@ -11,6 +11,7 @@ namespace Showdown_hub.Api.Extension
             // Create maps between entities and DTOs here
             CreateMap< SignUpDto, ApplicationUser>();
             // Add other mappings here as needed
+            CreateMap<UpdateUserDto,ApplicationUser>();
         }
     }
 }

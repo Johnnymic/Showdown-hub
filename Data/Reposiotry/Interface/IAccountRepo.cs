@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Showdown_hub.Models;
 using Showdown_hub.Models.Dtos;
 
@@ -34,6 +35,8 @@ namespace Showdown_hub.Data.Reposiotry.Interface
          Task<string>GenerateJwtToken(ApplicationUser applicationUser); 
 
          Task<bool>LogoutUser(ApplicationUser applicationUser);
+
+         Task<bool> UpdateUser(ApplicationUser applicationUser);
 
     }
 }

@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
@@ -270,6 +271,14 @@ namespace Showdown_hub.Api.Services.Implementation
             var result = new ResponseDto<string>();
    try
    {
+           if(string.IsNullOrEmpty(UserEmail)  || string.IsNullOrWhiteSpace(UserEmail))
+           {
+                 result.Message = Response.FAILED.ResponseMessage;
+                  result.StatusCode = Response.FAILED.ResponseCode;
+                  result.Result= "User have not logout succefully";
+                  return result;
+            
+           }
 
    
             var user = await _accountRepo.FindUserByEmailAsync(UserEmail);
@@ -303,17 +312,73 @@ namespace Showdown_hub.Api.Services.Implementation
                 result.Result = "User has successfully  logout"; 
             }
 
-   }
-   catch(Exception ex)
-   {
-        result.Message = ex.Message;
-   }
+        }
+           catch(Exception ex)
+          {
+            result.Message = ex.Message;
+          }
 
             return result;
 
         }
 
-        
+
+        public Task<ResponseDto<string>> VerifyEmail(string Email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<ResponseDto<string>> UpdateUser(UpdateUserDto updateUserDto, string email)
+        {
+            var result = new ResponseDto<string>();
+      try
+      {
+         if(string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(email.Trim()))
+            {
+                 result.Message = Response.FAILED.ResponseMessage;
+                  result.StatusCode = Response.FAILED.ResponseCode;
+                return result;
+            }
+            var exitUser = await _accountRepo.FindUserByEmailAsync(email);
+            if(exitUser==null)
+            {
+                    result.Message = Response.INVALID_ACCOUNT.ResponseMessage;
+                    result.StatusCode = Response.INVALID_ACCOUNT.ResponseCode;
+                    _logger.LogWarning("User not found", email);
+
+                    return result;
+            }
+            if(exitUser.profileStatus == ProfileStatus.Offline || exitUser.profileStatus == ProfileStatus.Disable)
+            {
+                   result.Message = Response.FAILED.ResponseMessage;
+                  result.StatusCode = Response.FAILED.ResponseCode;
+                  result.Result= "User is offline";
+                  return result; 
+
+            }            
+            var mapUser =  _mapper.Map<ApplicationUser>(updateUserDto);
+
+            var  updatedUserDetails = await _accountRepo.UpdateUser(mapUser);
+
+            if(updatedUserDetails == null)
+            {
+                  result.Message = Response.FAILED.ResponseMessage;
+                  result.StatusCode = Response.FAILED.ResponseCode;
+                  result.Result= "User failled to update user";
+                  return result;
+
+            }
+                result.Message = Response.SUCCESS.ResponseMessage;
+                result.StatusCode = Response.SUCCESS.ResponseCode;
+                result.Result = "User has successfully updated his account"; 
+
+      }
+      catch(Exception ex)
+      {
+        result.Message = ex.Message;
+      }  
+      return result;   
+       }
     }
 
 }
