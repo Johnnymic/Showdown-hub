@@ -38,5 +38,7 @@ namespace Showdown_hub.Data.Reposiotry.Interface
 
          Task<bool> UpdateUser(ApplicationUser applicationUser);
 
+         Task<bool> DeleteUser(ApplicationUser appllicationUser);
+
     }
 }

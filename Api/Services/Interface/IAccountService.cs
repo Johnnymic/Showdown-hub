@@ -18,6 +18,7 @@ namespace Showdown_hub.Api.Services.Interface
 
          Task<ResponseDto<string>> UpdateUser(UpdateUserDto updateUser, string email);
         
+        Task<ResponseDto<string>> DeleteUser(string id);
         
     }
 }

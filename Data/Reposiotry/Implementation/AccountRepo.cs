@@ -188,5 +188,11 @@ namespace Showdown_hub.Data.Reposiotry.Implementation
             return user.Succeeded ? true: false;
         }
 
+        public async Task<bool> DeleteUser(ApplicationUser applicationUser)
+        {
+            var user = await _userManager.DeleteAsync(applicationUser);
+            return user.Succeeded ? true : false;
+            
+        }
     }
 }

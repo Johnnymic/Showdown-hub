@@ -379,6 +379,45 @@ namespace Showdown_hub.Api.Services.Implementation
       }  
       return result;   
        }
+
+        public async Task<ResponseDto<string>> DeleteUser(string email)
+        {
+            var result = new ResponseDto<string>();
+
+            try
+            {
+                var userEmail = await _accountRepo.FindUserByEmailAsync(email);
+                if(userEmail == null)
+                {
+                    result.Message = Response.INVALID_ACCOUNT.ResponseMessage;
+                    result.StatusCode = Response.INVALID_ACCOUNT.ResponseCode;
+                    _logger.LogWarning("User not found", email);
+
+                    return result;
+                }
+                var DeleteUser = await _accountRepo.DeleteUser(userEmail);
+
+                if( DeleteUser == null) 
+                {
+                  result.Message = Response.FAILED.ResponseMessage;
+                  result.StatusCode = Response.FAILED.ResponseCode;
+                  return result;
+                
+                }
+                result.Message = Response.SUCCESS.ResponseMessage;
+                result.StatusCode= Response.SUCCESS.ResponseCode;
+                result.Result = "User successfully deleted";
+
+
+            }
+            catch(Exception ex)
+            {
+                result.Message = ex.Message;
+            }
+
+            return result;
+
+        }
     }
 
 }
