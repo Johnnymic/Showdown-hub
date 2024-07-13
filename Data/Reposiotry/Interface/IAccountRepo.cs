@@ -40,5 +40,7 @@ namespace Showdown_hub.Data.Reposiotry.Interface
 
          Task<bool> DeleteUser(ApplicationUser appllicationUser);
 
+         Task<PaginationDto> GetAllUsersByPagination(int pageSize, int pageNo);
+
     }
 }
