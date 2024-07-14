@@ -18,7 +18,9 @@ namespace Showdown_hub.Api.Services.Interface
 
          Task<ResponseDto<string>> UpdateUser(UpdateUserDto updateUser, string email);
         
-        Task<ResponseDto<string>> DeleteUser(string id);
+        Task<ResponseDto<string>> DeleteUser(string email);
+
+        Task<ResponseDto<PaginationDto>> GetPaginatedUser(int pageSize, int pageNo);
         
     }
 }

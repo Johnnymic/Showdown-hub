@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Showdown_hub.Data.DbContext;
 using Showdown_hub.Data.Reposiotry.Interface;
@@ -193,6 +194,52 @@ namespace Showdown_hub.Data.Reposiotry.Implementation
             var user = await _userManager.DeleteAsync(applicationUser);
             return user.Succeeded ? true : false;
             
+        }
+
+        public async Task<PaginationDto> GetAllUsersByPagination(int pageSize, int pageNo)
+        {
+         var filterUser = _userManager.Users
+                            .Join(
+                                _context.UserRoles,
+                                user => user.Id,
+                                userRole => userRole.UserId,
+                                (user,userRole)=> new {User = user , UserRoles =userRole}
+
+                            )
+                            .Join(
+                                _roleManager.Roles,
+                                userRole => userRole.UserRoles.RoleId,
+                                role => role.Id,
+                                (userRole, role)=> new {User = userRole, Role= role} 
+                            )
+                            .Where(u=> u.Role.Name =="USER")
+                            .Select(u=>
+                              new PaginatedUserDto
+                              {
+                                FirstName = u.User.User.FirstName,
+                                LastName = u.User.User.LastName,
+                                PhoneNumber= u.User.User.PhoneNumber,
+                                ProfilePicUrl= u.User.User.ProfilePic,
+                                Address = u.User.User.Address,
+                                 });
+
+              var totalCount = await filterUser.CountAsync();
+              var TotalPage = (int) Math.Ceiling((double) totalCount/pageSize);
+
+              var PaginatedAllUser = await filterUser
+              .Skip((pageNo-1)* pageSize)
+              .Take(pageSize)
+              .ToListAsync();
+
+              var result = new PaginationDto
+              {
+           CurrentPage =pageNo,
+           PageSize = pageSize,
+           TotalPage = TotalPage,
+           userDtos = PaginatedAllUser
+              };
+
+            return result;
         }
     }
 }

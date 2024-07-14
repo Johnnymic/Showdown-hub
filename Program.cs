@@ -33,7 +33,6 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 
  builder.Services.AddScoped<IAccountRepo, AccountRepo>();
  builder.Services.AddScoped<IAccountService, AccountService> ();
- builder.Services.AddScoped<IGenerateJwt,GenerateToken>();
 builder.Services.Configure<IdentityOptions>(options =>
 {
     // Username settings

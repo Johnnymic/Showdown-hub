@@ -418,6 +418,15 @@ namespace Showdown_hub.Api.Services.Implementation
             return result;
 
         }
+
+        public Task<ResponseDto<PaginationDto>> GetPaginatedUser(int pageSize, int pageNo)
+        {
+          //  var result =  _accountRepo
+
+
+
+            throw new NotImplementedException();
+        }
     }
 
 }

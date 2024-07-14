@@ -129,6 +129,53 @@ namespace Showdown_hub.Api
             }
 
          }
+         [HttpPost("/get/all/users")]
+         public async Task<IActionResult> GetAllRegisterUser(int pageSize, int PageNo)
+       {
+          var  PaginatedUser = await _accountService.GetPaginatedUser(pageSize, PageNo);
+             if (PaginatedUser.StatusCode == "00")
+            {
+                return Ok(PaginatedUser);
+            }
+            else
+            {
+                return BadRequest(PaginatedUser);
+            }
+        }
+
+        [HttpDelete("/delete")]
+        public async Task<IActionResult> DeleteUser(string email )
+        {
+            var user = await _accountService.DeleteUser(email);
+
+             if (user.StatusCode == "00")
+            {
+                return Ok(user);
+            }
+            else
+            {
+                return BadRequest(user);
+            }
+
+        }
+
+        [HttpPut("/update/user")]
+        public async Task<IActionResult> UpdatedAppUser(UpdateUserDto updateUserDto,string email )
+        {
+            var user = await _accountService.UpdateUser(updateUserDto,email);
+
+             if (user.StatusCode == "00")
+            {
+                return Ok(user);
+            }
+            else
+            {
+                return BadRequest(user);
+            }
+
+        }
+
+
 
         
            
