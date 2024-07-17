@@ -419,13 +419,32 @@ namespace Showdown_hub.Api.Services.Implementation
 
         }
 
-        public Task<ResponseDto<PaginationDto>> GetPaginatedUser(int pageSize, int pageNo)
+        public  async Task<ResponseDto<PaginationDto>> GetPaginatedUser(int pageSize, int pageNo)
         {
           //  var result =  _accountRepo
+          var result = new ResponseDto<PaginationDto>();
 
+          try
+          {
+            var  page =  await _accountRepo.GetAllUsersByPagination(pageSize, pageNo);
+             if(page == null)
+             {
+                 result.Message = Response.FAILED.ResponseMessage;
+                  result.StatusCode = Response.FAILED.ResponseCode;
+                  return result;
+             }
+             result.Message = Response.SUCCESS.ResponseMessage;
+             result.StatusCode =Response.SUCCESS.ResponseCode;
+             result.Result = page;
 
+          }
+          catch(Exception ex)
+          {
+            result.Message= ex.Message;
+          }
+        
+            return result;
 
-            throw new NotImplementedException();
         }
     }
 
