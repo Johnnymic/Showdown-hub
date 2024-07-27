@@ -1,3 +1,4 @@
+
 namespace Showdown_hub.Models.Dtos
 {
     public class UpdateUserDto
@@ -8,10 +9,13 @@ namespace Showdown_hub.Models.Dtos
 
        public string PhoneNumber {get; set;}
 
-       public string Gender {get; set;}
+       public int Gender {get; set;}
 
        public string Address {get; set;}
 
-       public DateTime DateOfBirth{ get; set;}
+        public static implicit operator UpdateUserDto(bool v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -50,8 +50,13 @@ namespace Showdown_hub.Api.Services.Implementation
                     _logger.LogWarning("Registration failed: Role {Role} does not exist.", role);
                     return result;
                 }
-
+                   
                 var mapUser = _mapper.Map<ApplicationUser>(signUp);
+                mapUser.profileStatus = ProfileStatus.New;
+                mapUser.LockoutEnabled = false;
+                mapUser.TwoFactorEnabled = false;
+                mapUser.IsEmailVerified= false;
+                
                 var createUser = await _accountRepo.SignUpAsync(mapUser, signUp.Password);
 
                 if (createUser == null)
@@ -152,7 +157,7 @@ namespace Showdown_hub.Api.Services.Implementation
             try
             {
                 var rolesExist = await _accountRepo.RoleExist(createRole.RoleName);
-                if (rolesExist != null)
+                if (rolesExist)
                 {
                     result.Message = Response.ROLE_ALREADY_EXIST.ResponseMessage;
                     result.StatusCode = Response.ACCOUNT_ALREADY_EXISTS.ResponseCode;
@@ -294,9 +299,10 @@ namespace Showdown_hub.Api.Services.Implementation
             //check if the token has expeired
             //check if the user is online then 
             //
-            if(user.profileStatus != null &&  user.profileStatus==ProfileStatus.Online)
+            if(user.profileStatus == null || user.profileStatus==ProfileStatus.Online)
             {
-               user.profileStatus = ProfileStatus.Offline;
+               
+                
                var logout = await _accountRepo.LogoutUser(user);
 
                if(!logout)
@@ -307,10 +313,11 @@ namespace Showdown_hub.Api.Services.Implementation
                   return result;
                }
                 
-                  result.Message = Response.SUCCESS.ResponseMessage;
+                 
+            }
+               result.Message = Response.SUCCESS.ResponseMessage;
                 result.StatusCode = Response.SUCCESS.ResponseCode;
                 result.Result = "User has successfully  logout"; 
-            }
 
         }
            catch(Exception ex)
@@ -328,18 +335,21 @@ namespace Showdown_hub.Api.Services.Implementation
             throw new NotImplementedException();
         }
 
-        public async Task<ResponseDto<string>> UpdateUser(UpdateUserDto updateUserDto, string email)
+        public async Task<ResponseDto<object>> UpdateUser(UpdateUserDto updateUserDto, string email)
         {
-            var result = new ResponseDto<string>();
+            var result = new ResponseDto<object>();
       try
       {
-         if(string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(email.Trim()))
-            {
-                 result.Message = Response.FAILED.ResponseMessage;
-                  result.StatusCode = Response.FAILED.ResponseCode;
-                return result;
-            }
+        if(string.IsNullOrEmpty(updateUserDto.FirstName) || string.IsNullOrEmpty(updateUserDto.LastName) || string.IsNullOrEmpty(updateUserDto.Address) || string.IsNullOrEmpty(updateUserDto.PhoneNumber))
+
+                {
+                    result.Message = Response.FAILED.ResponseMessage;
+                    result.StatusCode= Response.FAILED.ResponseCode;
+                    return result;
+                    
+                }         
             var exitUser = await _accountRepo.FindUserByEmailAsync(email);
+            Console.WriteLine($"{exitUser.Email}");
             if(exitUser==null)
             {
                     result.Message = Response.INVALID_ACCOUNT.ResponseMessage;
@@ -352,11 +362,11 @@ namespace Showdown_hub.Api.Services.Implementation
             {
                    result.Message = Response.FAILED.ResponseMessage;
                   result.StatusCode = Response.FAILED.ResponseCode;
-                  result.Result= "User is offline";
+                
                   return result; 
 
             }            
-            var mapUser =  _mapper.Map<ApplicationUser>(updateUserDto);
+            var mapUser =  _mapper.Map(updateUserDto, exitUser);
 
             var  updatedUserDetails = await _accountRepo.UpdateUser(mapUser);
 
@@ -364,13 +374,13 @@ namespace Showdown_hub.Api.Services.Implementation
             {
                   result.Message = Response.FAILED.ResponseMessage;
                   result.StatusCode = Response.FAILED.ResponseCode;
-                  result.Result= "User failled to update user";
                   return result;
+  
 
             }
                 result.Message = Response.SUCCESS.ResponseMessage;
                 result.StatusCode = Response.SUCCESS.ResponseCode;
-                result.Result = "User has successfully updated his account"; 
+                result.Result = "Successully updated";
 
       }
       catch(Exception ex)

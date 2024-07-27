@@ -27,8 +27,10 @@ namespace Showdown_hub.Models.Dtos
         [StringLength(50, ErrorMessage = "Last name cannot be longer than 50 characters.")]
         public string LastName { get; set; }
 
-        [Phone(ErrorMessage = "Invalid phone number format.")]
+          [Required(ErrorMessage = "Phone nuber is required.")]
         public string PhoneNumber { get; set; }
+
+        
 
         [StringLength(200, ErrorMessage = "Address cannot be longer than 200 characters.")]
         public string Address { get; set; }

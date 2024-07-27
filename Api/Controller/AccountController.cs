@@ -159,7 +159,7 @@ namespace Showdown_hub.Api
 
         }
 
-        [HttpPut("/update/user")]
+        [HttpPut("/update/user/")]
         public async Task<IActionResult> UpdatedAppUser(UpdateUserDto updateUserDto,string email )
         {
             var user = await _accountService.UpdateUser(updateUserDto,email);

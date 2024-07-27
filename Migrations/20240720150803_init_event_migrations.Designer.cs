@@ -12,8 +12,8 @@ using Showdown_hub.Data.DbContext;
 namespace Showdown_hub.Migrations
 {
     [DbContext(typeof(EventHubContext))]
-    [Migration("20240709210823_event_hub")]
-    partial class event_hub
+    [Migration("20240720150803_init_event_migrations")]
+    partial class init_event_migrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

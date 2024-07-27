@@ -110,8 +110,8 @@ namespace Showdown_hub.Data.Reposiotry.Implementation
         public async Task<bool> RoleExist(string roleName)
         {
              var role = await _roleManager.RoleExistsAsync(roleName);
-
-             return role ? role : false ;
+             Console.WriteLine("role :" +role);
+             return role;
         }
 
         public  async Task<ApplicationUser> SignUpAsync(ApplicationUser user, string password)
@@ -153,7 +153,7 @@ namespace Showdown_hub.Data.Reposiotry.Implementation
                 audience : _configuration["ValidAudience"],
                 expires : DateTime.Now.AddDays(1),
                 claims : authClaims,
-                signingCredentials : new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha384Signature)
+                signingCredentials : new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha512)
              );
 
 
@@ -179,12 +179,15 @@ namespace Showdown_hub.Data.Reposiotry.Implementation
              
               var logout = await _userManager.GetLockoutEnabledAsync(applicationUser);
 
+              Console.WriteLine($"");
+
               return logout;
         }
 
         public async Task<bool> UpdateUser(ApplicationUser applicationUser)
         {
             var user = await _userManager.UpdateAsync(applicationUser);
+            Console.WriteLine($"validate this update {user}");
             
             return user.Succeeded ? true: false;
         }
@@ -198,6 +201,7 @@ namespace Showdown_hub.Data.Reposiotry.Implementation
 
         public async Task<PaginationDto> GetAllUsersByPagination(int pageSize, int pageNo)
         {
+ 
          var filterUser = _userManager.Users
                             .Join(
                                 _context.UserRoles,

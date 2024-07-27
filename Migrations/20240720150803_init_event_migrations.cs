@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Showdown_hub.Migrations
 {
-    public partial class event_hub : Migration
+    public partial class init_event_migrations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
